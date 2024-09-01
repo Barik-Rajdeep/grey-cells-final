@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey Cells - Brain Power Analyzer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="scripts/ai-model.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            color: #ecf0f1;
+            padding: 1rem 0;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #0fa3c8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #3498db;
+        }
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        section {
+            margin-bottom: 3rem;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .slideshow-container {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+        }
+        .mySlides {
+            display: none;
+        }
+        .mySlides img {
+            width: 100%;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.9);
+        }
+        #contact-form {
+            display: grid;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        #contact-form input, #contact-form textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #contact-form button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        #contact-form button:hover {
+            background-color: #2980b9;
+        }
+        footer {
+            background-color: #34495e;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+            <div class="company-name">
+                <i class="fas fa-puzzle-piece fa-spin"></i>
+                Grey Cells
+            </div>
+        <style>
+            .company-name {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                font-size: 28px;
+                font-weight: 700;
+                font-family: 'Montserrat', sans-serif;
+                color: #2c3e50;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+            }
+        </style>
+    </header>
+    </header>
+        
+                <style>
+                    header {
+                        background-size: cover;
+                        background-position: center;
+                        height: 70px;
+                        position: relative;
+                    }
+                    
+                    
+                    
+                    nav ul li a {
+                        color: #ffffff;
+                        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+                    }
+                </style>
+        
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#games">Brain Games</a></li>
+                <li><a href="#analysis">AI Analysis</a></li>           
+                                <li><a href="#" id="signInIcon"><i class="fas fa-user-circle"></i> Sign In</a></li>
+                            </ul>
+                        </nav>
+                    </header>
+                                      <div id="signInModal" class="modal">
+                                          <div class="modal-content">
+                                              <span class="close">×</span>
+                                              <h2>Sign In</h2>
+                                              <form id="signInForm" class="animated-form">
+                                                  <div class="input-container">
+                                                      <input type="email" required>
+                                                      <label>Email</label>
+                                                  </div>
+                                                  <div class="input-container">
+                                                      <input type="password" required>
+                                                      <label>Password</label>
+                                                  </div>
+                                                  <button type="submit" class="btn-submit">Sign In</button>
+                                                  <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                                              </form>
+                                              <div class="social-login">
+                                                  <button class="google-btn"><i class="fab fa-google"></i> Sign in with Google</button>
+                                                  <button class="facebook-btn"><i class="fab fa-facebook-f"></i> Sign in with Facebook</button>
+                                              </div>
+                                              <p>Don't have an account? <a href="#" id="signUpLink">Sign Up</a></p>
+                                          </div>
+                                          <div class="modal-content" id="signUpForm" style="display: none;">
+                                              <span class="close">×</span>
+                                              <h2> Sign Up</h2>
+                                              <form id="professionalSignUpForm" class="animated-form">
+                                                  <div class="input-container">
+                                                      <input type="text" required>
+                                                      <label>Full Name</label>
+                                                  </div>
+                                                  <div class="input-container">
+                                                      <input type="email" required>
+                                                      <label>Email</label>
+                                                  </div>
+                                                  <div class="input-container">
+                                                      <input type="password" required>
+                                                      <label>Password</label>
+                                                  </div>
+                                                  <button type="submit" class="btn-submit">Sign Up</button>
+                                              </form>
+                                              <p>Already have an account? <a href="#" id="signInLink">Sign In</a></p>
+                                          </div>
+                                      </div>
+                                                        <style>
+                                                            @keyframes modalFadeIn {
+                                                                from { opacity: 0; transform: scale(0.8); }
+                                                                to { opacity: 1; transform: scale(1); }
+                                                            }
+                                          
+                                                            .modal {
+                                                                display: none;
+                                                                position: fixed;
+                                                                z-index: 1000;
+                                                                left: 0;
+                                                                top: 0;
+                                                                width: 100%;
+                                                                height: 100%;
+                                                                overflow: auto;
+                                                                background-color: rgba(0,0,0,0.6);
+                                                                backdrop-filter: blur(5px);
+                                                            }
+                                                            .modal-content {
+                                                                background-color: #ffffff;
+                                                                margin: 5% auto;
+                                                                padding: 40px;
+                                                                border: none;
+                                                                width: 90%;
+                                                                max-width: 450px;
+                                                                border-radius: 15px;
+                                                                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                                                                animation: modalFadeIn 0.5s ease-out;
+                                                            }
+                                                            .close {
+                                                                color: #888;
+                                                                float: right;
+                                                                font-size: 32px;
+                                                                font-weight: bold;
+                                                                cursor: pointer;
+                                                                transition: all 0.3s ease;
+                                                            }
+                                                            .close:hover,
+                                                            .close:focus {
+                                                                color: #000;
+                                                                transform: rotate(90deg);
+                                                            }
+                                                            .animated-form {
+                                                                display: flex;
+                                                                flex-direction: column;
+                                                            }
+                                                            .input-container {
+                                                                position: relative;
+                                                                margin-bottom: 30px;
+                                                            }
+                                                            .input-container input {
+                                                                width: 100%;
+                                                                padding: 12px 0;
+                                                                font-size: 16px;
+                                                                color: #333;
+                                                                border: none;
+                                                                border-bottom: 2px solid #ddd;
+                                                                outline: none;
+                                                                background: transparent;
+                                                                transition: all 0.3s ease;
+                                                            }
+                                                            .input-container label {
+                                                                position: absolute;
+                                                                top: 0;
+                                                                left: 0;
+                                                                padding: 12px 0;
+                                                                font-size: 16px;
+                                                                color: #999;
+                                                                pointer-events: none;
+                                                                transition: all 0.3s ease;
+                                                            }
+                                                            .input-container input:focus ~ label,
+                                                            .input-container input:valid ~ label {
+                                                                top: -20px;
+                                                                font-size: 12px;
+                                                                color: #6c5ce7;
+                                                                font-weight: bold;
+                                                            }
+                                                            .input-container input:focus {
+                                                                border-bottom: 2px solid #6c5ce7;
+                                                                box-shadow: 0 1px 0 0 #6c5ce7;
+                                                            }
+                                                            .btn-submit {
+                                                                background-color: #6c5ce7;
+                                                                color: white;
+                                                                padding: 14px;
+                                                                border: none;
+                                                                border-radius: 50px;
+                                                                cursor: pointer;
+                                                                font-size: 16px;
+                                                                font-weight: bold;
+                                                                text-transform: uppercase;
+                                                                letter-spacing: 1px;
+                                                                transition: all 0.3s ease;
+                                                                box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+                                                            }
+                                                            .btn-submit:hover {
+                                                                background-color: #5641e5;
+                                                                transform: translateY(-3px);
+                                                                box-shadow: 0 7px 20px rgba(108, 92, 231, 0.6);
+                                                            }
+                                                            .social-login {
+                                                                margin-top: 30px;
+                                                            }
+                                                            .social-login button {
+                                                                width: 100%;
+                                                                padding: 12px;
+                                                                margin: 10px 0;
+                                                                border: none;
+                                                                border-radius: 50px;
+                                                                cursor: pointer;
+                                                                font-size: 14px;
+                                                                font-weight: bold;
+                                                                transition: all 0.3s ease;
+                                                                display: flex;
+                                                                align-items: center;
+                                                                justify-content: center;
+                                                            }
+                                                            .google-btn {
+                                                                background-color: #ffffff;
+                                                                color: #DB4437;
+                                                                border: 2px solid #DB4437;
+                                                            }
+                                                            .facebook-btn {
+                                                                background-color: #ffffff;
+                                                                color: #4267B2;
+                                                                border: 2px solid #4267B2;
+                                                            }
+                                                            .social-login button:hover {
+                                                                transform: translateY(-3px);
+                                                                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                                                            }
+                                                            .social-login button i {
+                                                                margin-right: 10px;
+                                                                font-size: 18px;
+                                                            }
+                                                        </style>
+                
+                                      <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+                                      <script>
+                                          const signInIcon = document.getElementById("signInIcon");
+                                          const signInModal = document.getElementById("signInModal");
+                                          const closeBtns = document.getElementsByClassName("close");
+                                          const signUpLink = document.getElementById("signUpLink");
+                                          const signInLink = document.getElementById("signInLink");
+                                          const signInForm = document.querySelector(".modal-content:not(#signUpForm)");
+                                          const signUpForm = document.getElementById("signUpForm");
+
+                                          signInIcon.onclick = function() {
+                                              signInModal.style.display = "block";
+                                              signInForm.style.display = "block";
+                                              signUpForm.style.display = "none";
+                                          }
+
+                                          for (let closeBtn of closeBtns) {
+                                              closeBtn.onclick = function() {
+                                                  signInModal.style.display = "none";
+                                              }
+                                          }
+
+                                          signUpLink.onclick = function(e) {
+                                              e.preventDefault();
+                                              signInForm.style.display = "none";
+                                              signUpForm.style.display = "block";
+                                          }
+
+                                          signInLink.onclick = function(e) {
+                                              e.preventDefault();
+                                              signUpForm.style.display = "none";
+                                              signInForm.style.display = "block";
+                                          }
+
+                                          window.onclick = function(event) {
+                                              if (event.target == signInModal) {
+                                                  signInModal.style.display = "none";
+                                              }
+                                          }
+                                      </script>
+                
+            </ul>
+        </nav>
+        <style>
+            header {
+                height: 50px; /* Increased height to accommodate nav bar */
+                position: relative;
+                background-color: transparent;
+            }
+            nav {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                height: 60px;
+                background-color: rgba(38, 159, 225, 0.993);
+                backdrop-filter: blur(10px);
+                border-radius: 30px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            nav ul {
+                display: flex;
+                list-style-type: none;
+                margin: 0;
+                padding: 0 20px;
+                height: 100%;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 0 15px;
+            }
+            nav ul li a {
+                color: #000000;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                padding: 10px 15px;
+                border-radius: 20px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-family: 'Arial', sans-serif;
+                font-size: 14px;
+            }
+            nav ul li a:hover {
+                color: #ffffff;
+                background-color: rgba(49, 168, 195, 0.627);
+                transform: translateY(-2px);
+                box-shadow: 0 2px 4px rgba(33, 157, 195, 0.3);
+            }
+        </style>
+    </header>
+
+    <main id="app">
+        <section id="home">
+            
+                        <style>
+                            #home {
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                background-position: center;
+                                padding: 20px 0;
+                                border: 5px solid transparent;
+                                border-image: linear-gradient(to right, #73736f, transparent) 1;
+                            }
+                        </style>
+            
+                        <div class="slideshow-container">
+                <div class="mySlides">
+                    <video src="Gallery/Slide1.mp4" autoplay loop muted></video>
+                </div>
+                <div class="mySlides">
+                    <video src="Gallery/Slide2.mp4" autoplay loop muted></video>
+                </div>
+                <div class="mySlides">
+                    <video src="Gallery/Slide3.mp4" autoplay loop muted></video>
+                </div>
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+            </div>
+            <style>
+                .slideshow-container {
+                    max-width: 1000px;
+                    position: relative;
+                    margin: auto;
+                    border-radius: 25px;
+                    overflow: hidden;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    transition: transform 0.3s ease;
+                }
+                .slideshow-container:hover {
+                    transform: scale(1.02);
+                }
+                .mySlides {
+                    display: none;
+                }
+                .mySlides video {
+                    width: 100%;
+                    height: auto;
+                    object-fit: cover;
+                }
+                .prev, .next {
+                    cursor: pointer;
+                    position: absolute;
+                    top: 50%;
+                    width: auto;
+                    padding: 16px;
+                    margin-top: -22px;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 18px;
+                    transition: 0.3s ease;
+                    border-radius: 50%;
+                    user-select: none;
+                    background-color: rgba(0,0,0,0.5);
+                    width: 50px;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .next {
+                    right: 20px;
+                }
+                .prev {
+                    left: 20px;
+                }
+                .prev:hover, .next:hover {
+                    background-color: rgba(0,0,0,0.8);
+                    transform: scale(1.1);
+                }
+            </style>
+            <script>
+                let slideIndex = 0;
+                showSlides();
+
+                function showSlides() {
+                    let i;
+                    let slides = document.getElementsByClassName("mySlides");
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
+                    }
+                    slideIndex++;
+                    if (slideIndex > slides.length) {slideIndex = 1}
+                    slides[slideIndex-1].style.display = "block";
+                    setTimeout(showSlides, 5000); // Change slide every 5 seconds
+                }
+            </script>
+            
+        </section>
+
+        <section style="background-color: #f0f4f8; padding: 40px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background-color: #3498db; border-radius: 50%; opacity: 0.1; z-index: 0;"></div>
+            <div style="position: relative; z-index: 1;">
+                <h2 style="color: #2c3e50; font-size: 32px; margin-bottom: 20px;">Unlock Your Mind's Potential with Grey Cells</h2>
+                <p style="color: #34495e; font-size: 18px; line-height: 1.6;">Embark on an exhilarating journey to sharpen your intellect through our cutting-edge AI-powered brain games and receive tailored insights to boost your cognitive prowess.</p>
+            </div>
+            <div style="margin-top: 30px; text-align: center;">
+                <i class="fas fa-chess fa-5x" style="color: #3498db; animation: pulse 2s infinite;"></i>
+            </div>
+            <style>
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.1); }
+                    100% { transform: scale(1); }
+                }
+            </style>
+        </section>
+
+         
+                   
+
+        <section id="games">
+           
+            <div id="game-list">
+                <!-- Game tiles will be dynamically inserted here -->
+                                    <section id="games" style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                                        <h2>Brain Challenge Games</h2>
+                                        <div id="game-list" style="display: flex; justify-content: space-around; flex-wrap: wrap; width: 100%;">
+                                            <div style="width: 30%; min-width: 250px; margin: 10px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; height: 600px; display: flex; flex-direction: column;">
+                                                <div style="height: 200px; background-color: #3498db; background-image: url('Gallery/Brain-games.webp'); background-size: cover; background-position: center;"></div>
+                                                <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div>
+                                                        <h3 style="color: #2c3e50; font-size: 24px; margin-bottom: 10px;">Challenges</h3>
+                                                        <p style="color: #7f8c8d; margin-bottom: 20px;">Engage your mind with our diverse selection of brain-teasing games. From the logical challenges of Sudoku to the strategic depths of Chess, and the knowledge-testing excitement of Quizzes, our games are designed to stimulate your cognitive abilities and provide hours of intellectual entertainment.</p>
+                                                    </div>
+                                                    <div>
+                                                        <button onclick="window.location.href='https://www.braingymmer.com/en/brain-games/'" style="background-color: #3498db; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">Try Out</button>
+                                                        <span style="display: inline-block; margin-left: 10px; background-color: #2ecc71; color: #fff; padding: 5px 10px; border-radius: 20px; font-size: 14px; font-weight: bold; animation: bounce 1s infinite;">
+                                                            Free to Play
+                                                    </div>
+                                                </div>
+                                            </div>
+        
+                                            <div style="width: 30%; min-width: 250px; margin: 10px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; height: 600px; display: flex; flex-direction: column;">
+                                                <div style="height: 200px; background-color: #e74c3c; background-image: url('path/to/image2.jpg'); background-size: cover; background-position: center;"></div>
+                                                <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div>
+                                                        <h3 style="color: #2c3e50; font-size: 24px; margin-bottom: 10px;">Game 2</h3>
+                                                        <p style="color: #7f8c8d; margin-bottom: 20px;">Description of Game 2 goes here. Test your memory with this brain-teasing game!</p>
+                                                    </div>
+                                                    <div>
+                                                        <button style="background-color: #e74c3c; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">Try Out</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+        
+                                            <div style="width: 30%; min-width: 250px; margin: 10px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; height: 600px; display: flex; flex-direction: column;">
+                                                <div style="height: 200px; background-color: #2ecc71; background-image: url('path/to/image3.jpg'); background-size: cover; background-position: center;"></div>
+                                                <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                                    <div>
+                                                        <h3 style="color: #2c3e50; font-size: 24px; margin-bottom: 10px;">Game 3</h3>
+                                                        <p style="color: #7f8c8d; margin-bottom: 20px;">Description of Game 3 goes here. Improve your cognitive skills with this fun challenge!</p>
+                                                    </div>
+                                                    <div>
+                                                        <button style="background-color: #2ecc71; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">Try Out</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+        <section id="analysis">
+            <h2>AI Analysis</h2>
+            <div id="analysis-results">
+                <!-- AI analysis results will be displayed here -->
+            </div>
+            <div id="recommendations">
+                <!-- AI recommendations will be shown here -->
+            </div>
+        </section>
+
+        <section id="profile">
+            <h2>User Profile</h2>
+            <div id="user-stats">
+                <!-- User statistics will be displayed here -->
+            </div>
+            <div id="progress-chart">
+                <!-- User progress chart will be shown here -->
+            </div>
+        </section>
+
+        <section id="contact" style="border: 2px solid #3498db; background-color: #ecf0f1; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <h2 style="color: #2c3e50; font-size: 28px; margin-bottom: 20px; text-align: center; text-transform: uppercase; letter-spacing: 2px;">Contact Us</h2>
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px; margin: 10px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                    <h3 style="color: #3498db; font-size: 20px; margin-bottom: 15px;">Get in Touch</h3>
+                    <p style="color: #7f8c8d; line-height: 1.6;">We'd love to hear from you! Feel free to reach out with any questions or inquiries.</p>
+                </div>
+                <div style="flex: 1; min-width: 250px; margin: 10px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                    <h3 style="color: #3498db; font-size: 20px; margin-bottom: 15px;">Contact Information</h3>
+                    <p style="color: #7f8c8d; line-height: 1.6;">Email: info@example.com<br>Phone: (123) 456-7890<br>Address: 123 Main St, City, Country</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <form id="contact-form">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+
+        <p>© 2023 Grey Cells. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/games.js"></script>
+    <script src="scripts/analysis.js"></script>
+    <script>
+        let currentSlideIndex = 1;
+        showSlides(currentSlideIndex);
+
+        function plusSlides(n) {
+            showSlides(currentSlideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) {currentSlideIndex = 1}
+            if (n < 1) {currentSlideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[currentSlideIndex-1].style.display = "block";
+        }
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to a server
+            alert('Thank you for your message. We will get back to you soon!');
+            this.reset();
+        });
+    </script>
+</body>
+</body>
+</html>
